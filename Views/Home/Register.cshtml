@@ -1,0 +1,22 @@
+﻿@model Pizzeria.Models.User
+@{
+    ViewBag.Title = "Register";
+
+}
+
+<h2>Register</h2>
+@if (TempData["error"] != null)
+            {
+                <p>Error: @TempData["error"]</p>
+            }
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.username)
+    @Html.EditorFor(m => m.username)
+
+    @Html.LabelFor(m => m.password)
+    @Html.EditorFor(m => m.password)
+
+    <button class="btn btn-danger" type="submit">Proceed</button>
+
+}

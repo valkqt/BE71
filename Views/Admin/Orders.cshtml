@@ -1,0 +1,37 @@
+﻿@model List<Pizzeria.Models.Order>
+@{
+    ViewBag.Title = "Orders";
+}
+
+@if (TempData["error"] != null)
+{
+    <p>@TempData["error"] </p>
+}
+
+<h2>Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Pizzeria.Models.Order order in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td><ul>
+                    @foreach (Pizzeria.Models.Food food in order.foods)
+                    {<li>@food.title</li>
+                    }</ul></td>
+                <td>Kek</td>
+                <td>Pepe</td>
+            </tr>
+
+        }
+    </tbody>
+</table>

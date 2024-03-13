@@ -1,0 +1,24 @@
+﻿@model Pizzeria.Models.Order
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@using (@Html.BeginForm())
+{
+    <ul>
+        @foreach (Pizzeria.Models.Food food in Model.foods)
+                {
+            <li>@food.title : @food.price €</li>
+                }
+    </ul>
+    @Html.LabelFor(m => m.deliveryAddress)
+    @Html.EditorFor(m => m.deliveryAddress)
+
+    @Html.LabelFor(m => m.notes)
+    @Html.EditorFor(m => m.notes)
+
+
+    <button type="submit" class="btn btn-danger">Submit Order</button>
+} 

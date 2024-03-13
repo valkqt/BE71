@@ -1,0 +1,25 @@
+﻿@model Pizzeria.Models.Order
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Cart</h2>
+
+@foreach (Pizzeria.Models.Food food in Model.foods)
+{
+    <p>@food.title : @food.price x @food.quantity</p>
+}
+
+<p>total = @Model.foods.Sum(f => f.price * f.quantity); </p>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(m => m.deliveryAddress)
+    @Html.EditorFor(m => m.deliveryAddress)
+
+    @Html.LabelFor(m => m.notes)
+    @Html.EditorFor(m => m.notes)
+
+    <button class="btn btn-danger" type="submit">Proceed</button>
+
+}

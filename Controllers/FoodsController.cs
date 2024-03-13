@@ -12,7 +12,7 @@ namespace Pizzeria.Controllers
 {
     public class FoodsController : Controller
     {
-        private PizzaDB db = new PizzaDB();
+        private PizzaDB2 db = new PizzaDB2();
 
         // GET: Foods
         public ActionResult Index()

@@ -1,0 +1,14 @@
+﻿@model List<Pizzeria.Models.Food>
+@{
+    ViewBag.Title = "Menu";
+}
+
+<h2>Menu</h2>
+
+@foreach (Pizzeria.Models.Food food in Model)
+{
+    <p>@food.title</p>
+    <p>@food.price</p>
+    @Html.ActionLink("AddToCart", "AddToCart", "Services", new { product = $"{food.id}" }, new { @class = "btn btn-danger" })
+
+}

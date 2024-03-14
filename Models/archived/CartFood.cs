@@ -12,6 +12,9 @@ namespace Pizzeria.Models
         public int id { get; set; }
         public int cartId { get; set; }
         public int foodId { get; set; }
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int quantity { get; set; } = 1;
         public Cart cart { get; set; }
         public Food food { get; set; }
         public CartFood() { }

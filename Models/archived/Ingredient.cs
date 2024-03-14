@@ -16,5 +16,10 @@ namespace Pizzeria.Models
         [Required]
         [StringLength(50)]
         public string name { get; set; }
+
+        public Ingredient(string name)
+        {
+            this.name = name;
+        }
     }
 }

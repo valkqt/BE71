@@ -8,7 +8,6 @@ using System.Data.Entity;
 
 namespace Pizzeria.Controllers
 {
-    [Authorize(Roles = "user")]
     public class ServicesController : Controller
     {
         PizzaDB2 db = new PizzaDB2();
@@ -20,48 +19,52 @@ namespace Pizzeria.Controllers
 
         public ActionResult Cart()
         {
-            Order order = new Order();
             int user = int.Parse(User.Identity.Name);
-            var cart = db.Carts.Where(c => c.userId == user).FirstOrDefault();
-            List<CartFood> elements = db.CartFoods.Where(c => c.cartId == cart.id).ToList();
+
+            var userOrder = db.Orders.Where(o => o.userId == user && o.isReady == false).FirstOrDefault();
+            ViewBag.Nothing = "";
+
+            if (userOrder == null)
+            {
+                userOrder = new Order(user);
+                ViewBag.Nothing = "empty";
+            }
+
+            List<OrdersFood> elements = db.OrdersFoods.Where(f => f.orderId == userOrder.id).ToList();
             elements.ForEach(elem =>
             {
-                var quantity = db.CartFoodQuantities.Where(q => q.foodId == elem.foodId && q.cartId == cart.id).FirstOrDefault().quantity;
                 var food = db.Foods.Where(f => f.id == elem.foodId).FirstOrDefault();
-                food.quantity = quantity;
-                order.foods.Add(food);
+                food.quantity = elem.quantity;
+                userOrder.foods.Add(food);
             });
 
-            return View(order);
+            return View(userOrder);
         }
 
 
         [HttpPost]
-        public ActionResult Cart(Order order)
+        public ActionResult Cart(Order orderData)
         {
             if (ModelState.IsValid)
             {
-                int user = int.Parse(User.Identity.Name);
-                var cart = db.Carts.Where(c => c.userId == user).FirstOrDefault();
-                List<CartFood> elements = db.CartFoods.Where(c => c.cartId == cart.id).ToList();
-                elements.ForEach(elem =>
+                if (orderData.deliveryAddress == null)
                 {
-                    var quantity = db.CartFoodQuantities.Where(q => q.foodId == elem.foodId && q.cartId == cart.id).FirstOrDefault().quantity;
-                    var food = db.Foods.Where(f => f.id == elem.foodId).FirstOrDefault();
-                    db.OrdersFoods.Add(new OrdersFood(food.id, order.id));
-                    db.OrderFoodQuantities.Add(new OrderFoodQuantity(order.id, food.id, quantity));
+                    TempData["error"] = "Please insert valid address";
+                    return View(orderData);
+                }
+                int user = int.Parse(User.Identity.Name);
+                var userOrder = db.Orders.Where(o => o.userId == user && o.isReady == false).FirstOrDefault();
+                userOrder.deliveryAddress = orderData.deliveryAddress;
+                userOrder.notes = orderData.notes;
+                userOrder.isReady = true;
 
-                    food.quantity = quantity;
-                    order.foods.Add(food);
-                });
-
-                db.Orders.Add(order);
+                db.Entry(userOrder).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return View(order);
+                return RedirectToAction("Cart");
             }
             TempData["error"] = "error";
-            return View(order);
+            return RedirectToAction("Cart");
         }
 
 
@@ -70,25 +73,28 @@ namespace Pizzeria.Controllers
             TempData["product"] = product;
             int user = int.Parse(User.Identity.Name);
             int productId = int.Parse(product);
-            var cart = db.Carts.Where(c => c.userId == user).FirstOrDefault();
-            var food = db.Foods.Where(f => f.id == productId).FirstOrDefault();
-            var foodIsPresent = db.CartFoods.Where(cf => cf.foodId == productId && cf.cartId == cart.id).FirstOrDefault();
+            Order userOrder = db.Orders.Where(o => o.userId == user && o.isReady == false).FirstOrDefault();
+
+
+            if (userOrder == null)
+            {
+                Order newOrder = new Order(user);
+                db.Orders.Add(newOrder);
+                db.SaveChanges();
+
+                userOrder = newOrder;
+            }
+            var foodIsPresent = db.OrdersFoods.Where(of => of.foodId == productId && of.orderId == userOrder.id).FirstOrDefault();
             if (foodIsPresent == null)
             {
-                db.CartFoods.Add(new CartFood(cart.id, food.id));
-
-            }
-            var isPresent = db.CartFoodQuantities.Where(q => q.cartId == cart.id && q.foodId == productId).FirstOrDefault();
-
-            if (isPresent != null)
-            {
-                isPresent.quantity += 1;
-                db.Entry(isPresent).State = EntityState.Modified;
+                db.OrdersFoods.Add(new OrdersFood(productId, userOrder.id));
             }
             else
             {
-                db.CartFoodQuantities.Add(new CartFoodQuantity(cart.id, food.id, 1));
+                foodIsPresent.quantity += 1;
+                db.Entry(foodIsPresent).State = EntityState.Modified;
             }
+
             db.SaveChanges();
 
             return RedirectToAction("Menu");

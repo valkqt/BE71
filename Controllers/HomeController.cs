@@ -34,20 +34,29 @@ namespace Pizzeria.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Login([Bind(Include = "username, password, isRemember")] User user)
         {
-            var loggedUser = db.Users.Where(u => u.username == user.username && u.password == user.password).FirstOrDefault();
-            loggedUser.isRemember = user.isRemember;
-            if (loggedUser == null)
+            if (ModelState.IsValid)
             {
-                TempData["error"] = "Error: Non siamo riusciti ad effettuare il login con successo";
-                return RedirectToAction("Login");
-            }
+                var loggedUser = db.Users.Where(u => u.username == user.username && u.password == user.password).FirstOrDefault();
+                if (loggedUser == null)
+                {
+                    TempData["error"] = "Login unsuccessful, incorrect username or password.";
+                    return View(user);
+                }
+                loggedUser.isRemember = user.isRemember;
+                db.Entry(loggedUser).State = EntityState.Modified;
+                db.SaveChanges();
 
-            return Redirect(loggedUser);
+                return Redirect(loggedUser);
+            }
+            else
+            {
+                return View(user);
+            }
         }
 
-        [HttpPost]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -61,12 +70,12 @@ namespace Pizzeria.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register([Bind(Include = "username, password, isRemember")] User user)
         {
             if (ModelState.IsValid)
             {
                 db.Users.Add(user);
-                db.Carts.Add(new Cart(user.id));
                 db.SaveChanges();
 
                 return Redirect(user);

@@ -15,3 +15,7 @@ textarea {
 label, input {
     display: block;
 }
+
+.btn-link {
+    border: 0 !important;
+}

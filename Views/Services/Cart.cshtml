@@ -5,21 +5,47 @@
 
 <h2>Cart</h2>
 
-@foreach (Pizzeria.Models.Food food in Model.foods)
+@if (TempData["error"] != null)
 {
-    <p>@food.title : @food.price x @food.quantity</p>
+    <p>@TempData["error"]</p>
 }
 
-<p>total = @Model.foods.Sum(f => f.price * f.quantity); </p>
-
-@using (Html.BeginForm())
+@if (ViewBag.Nothing != "empty")
 {
-    @Html.LabelFor(m => m.deliveryAddress)
-    @Html.EditorFor(m => m.deliveryAddress)
+    foreach (Pizzeria.Models.Food food in Model.foods)
+    {
+        <div class="d-flex">
+            <div>
+                <img class="img-fluid" src="@food.image" alt="@food.title" />
+            </div>
+            <div class="d-flex justify-content-between">
+                <h5>@food.title</h5>
+                <div class="d-flex gap-3">
+                    <p>@food.price</p>
+                    <p>x<span>@food.quantity</span> : @Model.foods.FindAll(f => f.id == food.id).Sum(f => f.price * f.quantity) </p>
+                </div>
+            </div>
+            <p>@food.title : @food.price x @food.quantity</p>
 
-    @Html.LabelFor(m => m.notes)
-    @Html.EditorFor(m => m.notes)
+        </div>
+    }
 
-    <button class="btn btn-danger" type="submit">Proceed</button>
+    <p>total = @Model.foods.Sum(f => f.price * f.quantity); </p>
 
+    using (Html.BeginForm())
+    {
+        @Html.LabelFor(m => m.deliveryAddress)
+        @Html.EditorFor(m => m.deliveryAddress)
+
+        @Html.LabelFor(m => m.notes)
+        @Html.EditorFor(m => m.notes)
+
+        <button class="btn btn-danger" type="submit">Proceed</button>
+
+    }
+
+}
+else
+{
+    <p>@ViewBag.Nothing</p>
 }

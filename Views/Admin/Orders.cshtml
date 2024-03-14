@@ -14,22 +14,39 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">List</th>
+            <th scope="col">Address</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Controls</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (Pizzeria.Models.Order order in Model)
         {
             <tr>
-                <th scope="row">1</th>
-                <td><ul>
-                    @foreach (Pizzeria.Models.Food food in order.foods)
-                    {<li>@food.title</li>
-                    }</ul></td>
-                <td>Kek</td>
-                <td>Pepe</td>
+                <th scope="row">@order.id</th>
+                <td>
+                    <ul>
+                        @foreach (Pizzeria.Models.Food food in order.foods)
+                        {
+                            <li>@food.title</li>
+                        }
+                    </ul>
+                </td>
+                <td>@order.deliveryAddress</td>
+                <td>@order.notes</td>
+                <td>
+                    @if (@order.isCompleted)
+                    {
+                        <button class="btn btn-danger disabled">Completed</button>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Mark as completed", "Dispatch", "Admin", new { product = $"{order.id}" }, new { @class = "btn btn-danger" })
+                    }
+
+                </td>
             </tr>
 
         }

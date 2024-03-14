@@ -21,12 +21,6 @@ namespace Pizzeria.Models
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<OrdersFood> OrdersFoods { get; set; }
-        public virtual DbSet<FoodsIngredient> FoodsIngredients { get; set; }
-        public virtual DbSet<Ingredient> Ingredients { get; set; }
-        public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<CartFood> CartFoods { get; set; }
-        public virtual DbSet<CartFoodQuantity> CartFoodQuantities { get; set; }
-        public virtual DbSet<OrderFoodQuantity> OrderFoodQuantities { get; set; }
 
 
 

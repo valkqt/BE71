@@ -171,23 +171,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403131536445_init.cs" />
-    <Compile Include="Migrations\202403131536445_init.designer.cs">
-      <DependentUpon>202403131536445_init.cs</DependentUpon>
+    <Compile Include="Migrations\202403141510209_init.cs" />
+    <Compile Include="Migrations\202403141510209_init.designer.cs">
+      <DependentUpon>202403141510209_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Cart.cs" />
-    <Compile Include="Models\OrderFoodQuantity.cs" />
-    <Compile Include="Models\CartFoodQuantity.cs" />
+    <Compile Include="Models\archived\Cart.cs" />
+    <Compile Include="Models\archived\OrderFoodQuantity.cs" />
+    <Compile Include="Models\archived\CartFoodQuantity.cs" />
     <Compile Include="Models\RoleManager.cs" />
     <Compile Include="Models\Food.cs" />
-    <Compile Include="Models\FoodsIngredient.cs" />
-    <Compile Include="Models\Ingredient.cs" />
+    <Compile Include="Models\archived\FoodsIngredient.cs" />
+    <Compile Include="Models\archived\Ingredient.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrdersFood.cs" />
     <Compile Include="Models\PizzaDB2.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\CartFood.cs" />
+    <Compile Include="Models\archived\CartFood.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -343,8 +343,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202403131536445_init.resx">
-      <DependentUpon>202403131536445_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202403141510209_init.resx">
+      <DependentUpon>202403141510209_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

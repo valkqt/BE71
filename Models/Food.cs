@@ -26,11 +26,11 @@ namespace Pizzeria.Models
         [Range(0, int.MaxValue, ErrorMessage = "Il tempo di consegna non può essere negativo")]
         public int deliveryTime { get; set; }
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "La quantità non può essere negativa")]
+        public string ingredients { get; set; }
         public int quantity { get; set; } = 1;
 
         public Food() { }
-        public Food(int id, string title, string image, double price, int deliveryTime, int quantity)
+        public Food(int id, string title, string image, double price, int deliveryTime, int quantity, string ingredients)
         {
             this.id = id;
             this.title = title;
@@ -38,6 +38,7 @@ namespace Pizzeria.Models
             this.price = price;
             this.deliveryTime = deliveryTime;
             this.quantity = quantity;
+            this.ingredients = ingredients;
         }
 
 

@@ -5,19 +5,24 @@
 
 <h2>Login</h2>
 @if (TempData["error"] != null)
-            {
-                <p>@TempData["error"]</p>
-            }
+{
+    <p>@TempData["error"]</p>
+}
 @using (Html.BeginForm())
 {
-    @Html.LabelFor(m => m.username)
-    @Html.EditorFor(m => m.username)
+    @Html.AntiForgeryToken()
 
-    @Html.LabelFor(m => m.password)
-    @Html.EditorFor(m => m.password)
+    @Html.LabelFor(m => m.username, new { @class = "form-label" })
+    @Html.EditorFor(m => m.username, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.username)
 
-    @Html.LabelFor(m => m.isRemember)
-    @Html.CheckBoxFor(m => m.isRemember)
+    @Html.LabelFor(m => m.password, new { @class = "form-label" })
+    @Html.EditorFor(m => m.password, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(m => m.password)
+
+
+    @Html.LabelFor(m => m.isRemember, new { @class = "form-label" })
+    @Html.CheckBoxFor(m => m.isRemember, new { @class = "form-check" })
 
     <button class="btn btn-danger" type="submit">Proceed</button>
 }

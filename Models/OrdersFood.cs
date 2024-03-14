@@ -13,6 +13,9 @@ namespace Pizzeria.Models
 
         public int foodId { get; set; }
         public int orderId { get; set; }
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int quantity { get; set; } = 1;
         public Food food { get; set; }
         public Order order { get; set; }
 

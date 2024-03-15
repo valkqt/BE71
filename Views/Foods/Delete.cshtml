@@ -10,6 +10,7 @@
 <div>
     <h4>Food</h4>
     <hr />
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.title)
@@ -51,13 +52,6 @@
             @Html.DisplayFor(model => model.ingredients)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.quantity)
-        </dd>
 
     </dl>
 
@@ -65,8 +59,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", null, new {@class = "btn btn-danger"})
         </div>
     }
 </div>

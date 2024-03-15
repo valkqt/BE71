@@ -171,9 +171,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202403151532563_init.cs" />
-    <Compile Include="Migrations\202403151532563_init.designer.cs">
-      <DependentUpon>202403151532563_init.cs</DependentUpon>
+    <Compile Include="Migrations\202403151611569_init.cs" />
+    <Compile Include="Migrations\202403151611569_init.designer.cs">
+      <DependentUpon>202403151611569_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\archived\Cart.cs" />
@@ -345,8 +345,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202403151532563_init.resx">
-      <DependentUpon>202403151532563_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202403151611569_init.resx">
+      <DependentUpon>202403151611569_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

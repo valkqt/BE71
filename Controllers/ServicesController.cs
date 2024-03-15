@@ -30,15 +30,21 @@ namespace Pizzeria.Controllers
                 userOrder = new Order(user);
                 ViewBag.Nothing = "empty";
             }
-
+            int ETA = 0;
             List<OrdersFood> elements = db.OrdersFoods.Where(f => f.orderId == userOrder.id).ToList();
             elements.ForEach(elem =>
             {
                 var food = db.Foods.Where(f => f.id == elem.foodId).FirstOrDefault();
+                if (food.deliveryTime > ETA)
+                {
+                    ETA = food.deliveryTime;
+                }
+
                 food.quantity = elem.quantity;
                 userOrder.foods.Add(food);
             });
 
+            ViewBag.ETA = ETA;
             return View(userOrder);
         }
 

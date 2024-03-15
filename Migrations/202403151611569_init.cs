@@ -19,7 +19,8 @@
                         ingredients = c.String(nullable: false),
                         quantity = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.id)
+                .Index(t => t.title, unique: true);
             
             CreateTable(
                 "dbo.Orders",
@@ -84,6 +85,7 @@
             DropIndex("dbo.Carts", new[] { "userId" });
             DropIndex("dbo.OrdersFoods", new[] { "orderId" });
             DropIndex("dbo.OrdersFoods", new[] { "foodId" });
+            DropIndex("dbo.Foods", new[] { "title" });
             DropTable("dbo.Carts");
             DropTable("dbo.Users");
             DropTable("dbo.OrdersFoods");

@@ -13,7 +13,7 @@ namespace Pizzeria.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202403151532563_init"; }
+            get { return "202403151611569_init"; }
         }
         
         string IMigrationMetadata.Source

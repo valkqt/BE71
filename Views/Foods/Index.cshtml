@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create",null, new {@class = "btn btn-danger"})
 </p>
 <table class="table">
     <tr>
@@ -26,10 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ingredients)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.quantity)
-        </th>
-        <th></th>
+        <th>Controls</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -41,20 +38,17 @@
             <img src="@item.image" style="width: 100px; height: 100px; object-fit:cover"/>
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.price)
+            @Html.DisplayFor(modelItem => item.price)€
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.deliveryTime)
+            @Html.DisplayFor(modelItem => item.deliveryTime) minutes
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ingredients)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.quantity)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }, new { @class = "btn btn-danger"}) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

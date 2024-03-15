@@ -91,3 +91,9 @@ table {
     background-color: #fff33e;
     border: 1px solid black !important;
 }
+
+dl {
+    background-color: #fff33e;
+    border: 1px solid black;
+    padding: 1rem;
+}

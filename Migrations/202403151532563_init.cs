@@ -31,6 +31,8 @@
                         isReady = c.Boolean(nullable: false),
                         userId = c.Int(nullable: false),
                         isCompleted = c.Boolean(nullable: false),
+                        total = c.Double(nullable: false),
+                        completedAt = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
                     })
                 .PrimaryKey(t => t.id);
             

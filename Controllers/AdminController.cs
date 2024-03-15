@@ -27,31 +27,32 @@ namespace Pizzeria.Controllers
                 query.ToList().ForEach(elem => o.foods.Add(new Food(elem.id, elem.title, elem.image, elem.price, elem.deliveryTime, elem.quantity, elem.ingredients)));
             });
 
-            TempData["error"] = "Can't retrieve orders";
 
             return View(orders);
         }
 
-        public ActionResult Services()
-        {
-            // visualizza tabella cibi con add, edit, delete
-            return View();
-        }
 
         public ActionResult Dispatch(string product)
         {
             int productId = int.Parse(product);
             var order = db.Orders.Where(o => o.id == productId).FirstOrDefault();
             order.isCompleted = true;
+            order.completedAt = DateTime.Now;
             db.Entry(order).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Orders");
         }
 
+
         public JsonResult Stats()
         {
-            // Json controller per le chiamate asincrone
-            return Json("pepe");
+            var today = DateTime.Now.Date;
+            var orders = db.Orders.Where(o => o.completedAt.Year == today.Year && o.completedAt.Month == today.Month && o.completedAt.Day == today.Day).ToList();
+            var count = orders.Count();
+            var total = orders.Sum(p => p.total);
+
+
+            return Json(new { number = count, money = total }, JsonRequestBehavior.AllowGet);
         }
     }
 }

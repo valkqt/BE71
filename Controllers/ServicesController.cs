@@ -8,6 +8,7 @@ using System.Data.Entity;
 
 namespace Pizzeria.Controllers
 {
+    [Authorize]
     public class ServicesController : Controller
     {
         PizzaDB2 db = new PizzaDB2();
@@ -41,9 +42,31 @@ namespace Pizzeria.Controllers
             return View(userOrder);
         }
 
+        public ActionResult RemoveFromCart(int product)
+        {
+            int user = int.Parse(User.Identity.Name);
+            var food = db.Foods.Where(f => f.id == product).FirstOrDefault();
+            var order = db.Orders.Where(o => o.userId == user && o.isReady == false).FirstOrDefault();
+            var orderFood = db.OrdersFoods.Where(of => of.foodId == product && of.orderId == order.id).FirstOrDefault();
+            if (orderFood.quantity > 1)
+            {
+                orderFood.quantity -= 1;
+                db.Entry(orderFood).State = EntityState.Modified;
+            }
+            else
+            {
+                db.OrdersFoods.Remove(orderFood);
+            }
+            order.total -= food.price;
+            db.Entry(order).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Cart");
+        }
+
 
         [HttpPost]
-        public ActionResult Cart(Order orderData)
+        [ValidateAntiForgeryToken]
+        public ActionResult Cart([Bind(Include = "deliveryAddress, notes")] Order orderData)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +80,10 @@ namespace Pizzeria.Controllers
                 userOrder.deliveryAddress = orderData.deliveryAddress;
                 userOrder.notes = orderData.notes;
                 userOrder.isReady = true;
+
+                var orderContents = db.OrdersFoods.Where(of => of.orderId == userOrder.id).ToList();
+                db.OrdersFoods.RemoveRange(orderContents);
+
 
                 db.Entry(userOrder).State = EntityState.Modified;
                 db.SaveChanges();
@@ -94,7 +121,7 @@ namespace Pizzeria.Controllers
                 foodIsPresent.quantity += 1;
                 db.Entry(foodIsPresent).State = EntityState.Modified;
             }
-
+            userOrder.total += db.Foods.Where(f => f.id == productId).FirstOrDefault().price;
             db.SaveChanges();
 
             return RedirectToAction("Menu");

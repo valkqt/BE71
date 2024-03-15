@@ -2,50 +2,57 @@
 @{
     ViewBag.Title = "Cart";
 }
+<main class="CartBody">
 
-<h2>Cart</h2>
+    <h2 class="MenuHeader">Cart</h2>
 
-@if (TempData["error"] != null)
-{
-    <p>@TempData["error"]</p>
-}
-
-@if (ViewBag.Nothing != "empty")
-{
-    foreach (Pizzeria.Models.Food food in Model.foods)
+    @if (TempData["error"] != null)
     {
-        <div class="d-flex">
-            <div>
-                <img class="img-fluid" src="@food.image" alt="@food.title" />
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-diamond-fill me-1" viewBox="0 0 16 16">
+                <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+            </svg>            <div>
+                @TempData["error"]
             </div>
-            <div class="d-flex justify-content-between">
-                <h5>@food.title</h5>
-                <div class="d-flex gap-3">
-                    <p>@food.price</p>
-                    <p>x<span>@food.quantity</span> : @Model.foods.FindAll(f => f.id == food.id).Sum(f => f.price * f.quantity) </p>
+        </div>}
+
+    @if (ViewBag.Nothing != "empty")
+    {
+        <ul>
+
+            @foreach (Pizzeria.Models.Food food in Model.foods)
+            {
+                <li class="CartListItem">@food.title <span>x @food.quantity</span> <span style="float: right">@(food.price*food.quantity) €</span></li>
+            }
+        </ul>
+
+        <div class="text-center">
+            <p class="CartTotal text-center">Total = @Model.foods.Sum(f => f.price * f.quantity)€ </p>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.LabelFor(m => m.deliveryAddress, new { @class = "form-label" })
+                @Html.EditorFor(m => m.deliveryAddress, new { htmlAttributes = new { @class = "form-control d-inline" } })
+                @Html.ValidationMessageFor(m => m.deliveryAddress)
+
+                @Html.LabelFor(m => m.notes, new { @class = "form-label" })
+                @Html.EditorFor(m => m.notes, new { htmlAttributes = new { @class = "form-control d-inline" } })
+                @Html.ValidationMessageFor(m => m.notes)
+
+                <div>
+                    <button class="btn btn-danger mt-3 d-inline" type="submit">Complete Order</button>
                 </div>
-            </div>
-            <p>@food.title : @food.price x @food.quantity</p>
+            }
 
         </div>
+
+
     }
-
-    <p>total = @Model.foods.Sum(f => f.price * f.quantity); </p>
-
-    using (Html.BeginForm())
+    else
     {
-        @Html.LabelFor(m => m.deliveryAddress)
-        @Html.EditorFor(m => m.deliveryAddress)
-
-        @Html.LabelFor(m => m.notes)
-        @Html.EditorFor(m => m.notes)
-
-        <button class="btn btn-danger" type="submit">Proceed</button>
-
+        <p>@ViewBag.Nothing</p>
     }
 
-}
-else
-{
-    <p>@ViewBag.Nothing</p>
-}
+</main>

@@ -21,38 +21,33 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li> @Html.ActionLink("Menu", "Menu", "Services", new { area = "" }, new { @class = "nav-link" }) </li>
 
-                    @if (User.IsInRole("admin"))
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Orders", "Orders", "Admin", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Foods", "Index", "Foods", new { area = "" }, new { @class = "dropdown-item" })</li>
-                            </ul>
-                        </li>
-                        <li></li>
-
-                    }
-
-
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Logout", "Logout", "Home", null, new { @class = "nav-link", onclick = "return confirm('Are you sure you want to log out?')" })</li>
+                        if (User.IsInRole("admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Orders", "Orders", "Admin", new { area = "" }, new { @class = "dropdown-item" })</li>
+                                    <li>@Html.ActionLink("Foods", "Index", "Foods", new { area = "" }, new { @class = "dropdown-item" })</li>
+                                </ul>
+                            </li>
+                            <li></li>
+                        }
+                        else
+                        {
+                            <li> @Html.ActionLink("Cart", "Cart", "Services", new { area = "" }, new { @class = "nav-link" }) </li>
 
-
+                        }
                     }
                     else
                     {
                         <li> @Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" }) </li>
                         <li> @Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link" }) </li>
                     }
-
-
-
-
-
                 </ul>
             </div>
         </div>
@@ -60,8 +55,8 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="text-center">
+            <p class="FooterStyle">&copy; @DateTime.Now.Year - IN FORNO </p>
         </footer>
     </div>
 

@@ -3,12 +3,27 @@
     ViewBag.Title = "Menu";
 }
 
-<h2>Menu</h2>
+<main>
+    <h2 class="display-3 MenuHeader">Menu</h2>
 
-@foreach (Pizzeria.Models.Food food in Model)
-{
-    <p>@food.title</p>
-    <p>@food.price</p>
-    @Html.ActionLink("AddToCart", "AddToCart", "Services", new { product = $"{food.id}" }, new { @class = "btn btn-danger" })
+    @foreach (Pizzeria.Models.Food food in Model)
+    {
+        <div class="d-flex MenuBox">
+            <div class="MenuImgContainer">
+                <img src="@food.image" class="img-fluid" />
+            </div>
+            <div class="d-flex flex-column MenuTextContainer">
+                <h3 class="MenuTitle">@food.title</h3>
+                <p class="small">Prezzo: @food.price €</p>
+                <p class="small">Ingredienti: @food.ingredients</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("Order", "AddToCart", "Services", new { product = $"{food.id}" }, new { @class = "btn btn-danger MenuButton" })
+                }
 
-}
+            </div>
+        </div>
+
+    }
+
+</main>

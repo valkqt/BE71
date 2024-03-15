@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.image)
+            <img src="@item.image" style="width: 100px; height: 100px; object-fit:cover"/>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.price)
@@ -54,7 +54,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>

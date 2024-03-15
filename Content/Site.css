@@ -3,6 +3,11 @@
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
+    background-color: #ffb700;
+}
+
+body {
+    background-color: #6e1101;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -18,4 +23,71 @@ label, input {
 
 .btn-link {
     border: 0 !important;
+}
+
+.MenuImgContainer {
+    width: 350px;
+    flex-basis: 25%;
+}
+
+.MenuBox {
+    padding: 0 0 2rem 0;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.MenuTextContainer {
+    flex-basis: 25%;
+}
+
+.MenuTitle {
+    border-bottom: 3px solid #d73200;
+    padding-bottom: 8px;
+}
+
+.MenuHeader {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 2px solid #d73200;
+    margin-bottom: 1rem;
+}
+
+.MenuButton {
+    display: inline;
+}
+
+.CartBody {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.CartListItem {
+    font-size: 1.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.CartBody ul {
+    max-width: 500px;
+    height: 400px;
+    margin: 0 auto;
+    background-image: url("/note.jpg");
+    background-size: cover;
+    padding: 1rem;
+    padding-top: 3.6rem;
+}
+
+.FooterStyle {
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.CartTotal {
+    font-size: 2.5rem;
+}
+
+table {
+    background-color: #fff33e;
+    border: 1px solid black !important;
 }

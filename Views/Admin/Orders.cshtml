@@ -8,7 +8,12 @@
     <p>@TempData["error"] </p>
 }
 
-<h2>Orders</h2>
+<h2 class="text-center fw-bold display-5 MenuHeader">Welcome Administrator</h2>
+@*<button class="btn btn-danger" onclick="fetchStats()">Today's Statistics'</button>*@
+<div class="d-flex justify-content-center gap-3">
+    <p class="fw-bold" style="font-size: 1.5rem;">Orders dispatched today: <span id="count"></span></p>
+    <p class="fw-bold" style="font-size: 1.5rem;">Total income: <span id="total"></span>€</p>
+</div>
 
 <table class="table">
     <thead>
@@ -17,6 +22,7 @@
             <th scope="col">List</th>
             <th scope="col">Address</th>
             <th scope="col">Notes</th>
+            <th scope="col">Dispatched at</th>
             <th scope="col">Controls</th>
 
         </tr>
@@ -36,6 +42,7 @@
                 </td>
                 <td>@order.deliveryAddress</td>
                 <td>@order.notes</td>
+                <td>@order.completedAt</td>
                 <td>
                     @if (@order.isCompleted)
                     {
@@ -52,3 +59,18 @@
         }
     </tbody>
 </table>
+
+@section scripts {
+    <script type="text/javascript">
+        async function fetchStats() {
+            const response = await fetch('@Url.Action("Stats", "Admin")')
+            const data = await response.json()
+            document.getElementById("count").textContent = data.number 
+            document.getElementById("total").innerText = data.money
+            console.log(data)
+
+        }
+        fetchStats()
+    </script>
+
+} 
